@@ -7,19 +7,15 @@ try:
 	connect = pg8000.connect(user="btc", password="Bitcoin")
 	cursor = connect.cursor()
 
-	time_request = requests.get(api+"/time")
-	time_data = time_request.json()
-	formatted_time = time_data["iso"][0:10] + " " + time_data["iso"][11:19]
-
-	price_request = requests.get(api+"/products")
-	price_data = price_request.json()
-	i = 0
-	while (price_data[i]["id"] != "BTC-USD"):
-		i=i+1
+	request = requests.get(api+"/products/btc-usd/ticker")
+	data = request.json()
+	time = data["time"][0:10] + " " + data["time"][11:19]
+	price = f'{float(data["price"]):.2f}'
 
 	# Format is timestamp, numeric(7,2)
 	# ('YYYY-MM-DD HH:MM:SS', xxxxx.yy)
-	cursor.execute("INSERT INTO btc_price ()")
+	# TODO: Fix SQL syntax
+	#cursor.execute("INSERT INTO btc_price VALUES (\'" + time + "\', " + price + ");")
 
 except pg8000.DatabaseError:
 	
