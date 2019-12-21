@@ -1,13 +1,13 @@
-import pg8000
+import pandas
 import requests
 
 api = "https://api.pro.coinbase.com"
 
+def load_data():
+	
+
 def get_price():
 	try:
-		connect = pg8000.connect(user="btc", password="Bitcoin")
-		cursor = connect.cursor()
-	
 		request = requests.get(api+"/products/btc-usd/ticker")
 		data = request.json()
 		time = data["time"][0:10] + " " + data["time"][11:19]
@@ -18,9 +18,6 @@ def get_price():
 		# TODO: Fix SQL syntax
 		#cursor.execute("INSERT INTO btc_price VALUES (\'" + time + "\', " + price + ");")
 	
-	except pg8000.DatabaseError:
-		
-	
-	finally:
+	except:
 		
 
