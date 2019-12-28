@@ -14,7 +14,7 @@ try:
 		# Create DataFrame if one does not already exist
 		data = pandas.DataFrame(columns=["Time","Price"])
 # On exit
-except KeyboardInterrupt:
+except:
 	print("Saving data before exit...")
 	save_data(data)
 	
