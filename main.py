@@ -12,7 +12,7 @@ try:
 	except IOError:
 		global data
 		# Create DataFrame if one does not already exist
-		data = pandas.DataFrame(columns=["Time","Price"])
+		data = create_df()
 # On exit
 except:
 	print("Saving data before exit...")
