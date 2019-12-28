@@ -3,6 +3,11 @@ import pickle
 import requests
 
 api = "https://api.pro.coinbase.com"
+sandbox_api = "https://api-public.sandbox.pro.coinbase.com"
+
+def create_df():
+	# Create empty DataFrame
+	return(pandas.DataFrame(columns=["Time","Price"]))
 
 def load_data():
 	# Import existing historical data
@@ -24,5 +29,3 @@ def get_price():
 
 	# Format is timestamp, numeric(7,2)
 	# ('YYYY-MM-DD HH:MM:SS', xxxxx.yy)
-	# TODO: Fix SQL syntax
-	#cursor.execute("INSERT INTO btc_price VALUES (\'" + time + "\', " + price + ");")
