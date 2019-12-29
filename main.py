@@ -17,4 +17,4 @@ try:
 except:
 	print("Saving data before exit...")
 	save_data(data)
-	
+	exit()
