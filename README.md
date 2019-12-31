@@ -1,5 +1,5 @@
 # btc-algotrader
-Algorithmically trade Bitcoin via Coinbase/GDAX
+Algorithmically trade Bitcoin via Coinbase Pro/GDAX
 
 Requires:
 
