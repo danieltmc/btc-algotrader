@@ -2,30 +2,33 @@ import pandas
 import pickle
 import requests
 
+# Base URLs
 api = "https://api.pro.coinbase.com"
-btc_usd = "/products/btc-usd"
 sandbox_api = "https://api-public.sandbox.pro.coinbase.com"
+# URL extensions
+btc_usd = "/products/btc-usd"
 
+# Create empty DataFrame
 def create_df():
-	# Create empty DataFrame
 	return(pandas.DataFrame(columns=["Time","Price"]))
 
+# Import existing historical data
 def load_data():
-	# Import existing historical data
 	dataframe = pandas.read_pickle("historical.pkl")
 	print("Pandas DataFrame imported")
 	return(dataframe)
 
+# Save historical data
 def save_data(dataframe):
-	# Save historical data
 	dataframe.to_pickle("historical.pkl")
 	print("Pandas DataFrame saved")
 	return
 
+# Fetch all open orders
 def book_price():
-	# Fetch all open orders
 	request = requests.get(api + btc_usd + "/book")
 	json = request.json()
+	# Only look at asking (selling) prices. Other contents of the dict are "sequence" (order #) and "bids" (buying prices)
 	asking = json["asks"]
 	total_weight = float(0)
 	# Sum the total order volume of open sales
@@ -40,8 +43,8 @@ def book_price():
 	# Calculate the weighted average of all open sales
 	avg_price = avg_price / total_weight
 
+# Request latest order (warning: can be small trade volume)
 def last_price():
-	# Request latest order (warning: can be a very small amount)
 	request = requests.get(api + btc_usd + "/ticker")
 	data = request.json()
 	# Time is in SQL timestamp format
