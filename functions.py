@@ -46,8 +46,11 @@ def book_price():
 # Request latest order (warning: can be small trade volume)
 def last_price():
 	request = requests.get(api + btc_usd + "/ticker")
-	data = request.json()
+	json = request.json()
 	# Time is in SQL timestamp format
-	time = data["time"][0:10] + " " + data["time"][11:19]
-	# Price is truncated to 2 decimal places
-	price = f'{float(data["price"]):.2f}'
+	time = json["time"][0:10] + " " + json["time"][11:19]
+	# Store price as a float instead of a truncated string
+	# price = f'{float(data["price"]):.2f}'
+	price = float(json["price"])
+	# Pass results as a tuple so time and price can be stored as a pair
+	return(time, price)
