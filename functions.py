@@ -5,8 +5,14 @@ import requests
 # Base URLs
 api = "https://api.pro.coinbase.com"
 sandbox_api = "https://api-public.sandbox.pro.coinbase.com"
+websocket = "wss://ws-feed.pro.coinbase.com"
+sandbox_websocket = "wss://ws-feed-public.sandbox.pro.coinbase.com"
 # URL extensions
 btc_usd = "/products/btc-usd"
+
+###############################
+# Data Storage Functions
+###############################
 
 # Create empty DataFrame
 def create_df():
@@ -24,6 +30,10 @@ def save_data(dataframe):
 	print("Pandas DataFrame saved")
 	return
 
+###############################
+# Order Data Functions
+###############################
+
 # Fetch all open orders
 def book_price():
 	# Make requests first to minimize delay between time and price
@@ -31,7 +41,7 @@ def book_price():
 	order_request = requests.get(api + btc_usd + "/book?level=2") # Level 2 gives top 50 open orders
 	# Time is in SQL timestamp format
 	time_json = time_request.json()
-	time = time_json["iso"][0:10] + " " + time_json["time"][11:19]
+	time = format_time(time_json["iso"])
 	# Only look at asking (selling) prices. Other contents of the dict are "sequence" (order #) and "bids" (buying prices)
 	order_json = order_request.json()
 	asking = order_json["asks"]
@@ -54,10 +64,18 @@ def last_price():
 	request = requests.get(api + btc_usd + "/ticker")
 	json = request.json()
 	# Time is in SQL timestamp format
-	time = json["time"][0:10] + " " + json["time"][11:19]
+	time = format_time(json["time"])
 	# Store price as a float instead of a truncated string
 	# price = f'{float(data["price"]):.2f}'
 	price = float(json["price"])
 	# Pass results as a tuple so time and price can be stored as a pair
 	return(time, price)
 
+###############################
+# Utility Functions
+###############################
+
+# Convert time from ISO to SQL timestamp
+def format_time(unformatted):
+	formatted = unformatted[0:10] + " " + unformatted[11:19]
+	return(formatted)
