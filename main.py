@@ -8,11 +8,11 @@ try:
 	try:
 		global data
 		# Load Pickled DataFrame
-		data = load_data()	
+		data = functions.load_data()	
 	except IOError:
 		global data
 		# Create DataFrame if one does not already exist
-		data = create_df()
+		data = functions.create_df()
 # On exit
 except:
 	print("Saving data before exit...")
