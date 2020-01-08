@@ -30,11 +30,18 @@ def save_data(dataframe):
 	print("Pandas DataFrame saved")
 	return
 
+# Write current price to the DataFrame
+def log_price():
+	# Use weighted average of top 50 open sales
+	time, price = book_price()
+	# DataFrame value at Time is Price
+	main.data.at[time, "Time"] = price
+
 ###############################
 # Order Data Functions
 ###############################
 
-# Fetch all open orders
+# Fetch open orders
 def book_price():
 	# Make requests first to minimize delay between time and price
 	time_request = requests.get(api + btc_usd + "/time")
@@ -79,3 +86,4 @@ def last_price():
 def format_time(unformatted):
 	formatted = unformatted[0:10] + " " + unformatted[11:19]
 	return(formatted)
+
