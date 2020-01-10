@@ -1,6 +1,7 @@
 import pandas
 import pickle
 import requests
+import time
 
 # Base URLs
 api = "https://api.pro.coinbase.com"
@@ -87,3 +88,6 @@ def format_time(unformatted):
 	formatted = unformatted[0:10] + " " + unformatted[11:19]
 	return(formatted)
 
+# Return ime in SQL timestamp format
+def timestamp():
+	return(time.strftime("%Y-%m-%d %H:%M:%S"))
