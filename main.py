@@ -3,14 +3,15 @@ import requests
 # Import function definitions
 import functions
 
+# Pandas DataFrame object
+global data
+
 try:
 	# On start
 	try:
-		global data
 		# Load Pickled DataFrame
 		data = functions.load_data()	
 	except IOError:
-		global data
 		# Create DataFrame if one does not already exist
 		data = functions.create_df()
 # On exit
