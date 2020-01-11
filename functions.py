@@ -88,6 +88,11 @@ def format_time(unformatted):
 	formatted = unformatted[0:10] + " " + unformatted[11:19]
 	return(formatted)
 
-# Return ime in SQL timestamp format
+# Return time in SQL timestamp format
 def timestamp():
 	return(time.strftime("%Y-%m-%d %H:%M:%S"))
+
+# Return past time in SQL timestamp format
+def relative_timestamp(weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0):
+	timestamp = int(time.time()) - ((minutes * 60) + (hours * 3600) + (days * 86400) + (weeks * 604800))
+	return(time.strftime("%Y-%m-%d %H:5M:%S",time.gmtime(timestamp)))
