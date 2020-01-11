@@ -17,7 +17,8 @@ btc_usd = "/products/btc-usd"
 
 # Create empty DataFrame
 def create_df():
-	main.data = pandas.DataFrame(columns=["Time","Price"])
+	# Time is the index of the DataFrame, Price and Volume are the data to be stored
+	main.data = pandas.DataFrame(columns=["Price", "Volume"])
 	return
 
 # Import existing historical data
@@ -35,9 +36,12 @@ def save_data():
 # Write current price to the DataFrame
 def log_price():
 	# Use weighted average of top 50 open sales
-	time, price = book_price()
+	time, price, volume = book_price()
 	# DataFrame value at Time is Price
-	main.data.at[time, "Time"] = price
+	main.data.at[time, "Price"] = price
+	main.data.at[time, "Volume"] = volume
+	print("Data logged: Average price of $" + str(price) + "across total order volume of " + str(volume) " BTC")
+	return
 
 ###############################
 # Order Data Functions
@@ -66,7 +70,7 @@ def book_price():
 		weighted_price += ask_price * relative_weight
 	# Calculate the weighted average of all open sales
 	weighted_price = weighted_price / total_weight
-	return(time, weighted_price)
+	return(time, weighted_price, total_weight)
 
 # Request latest order (warning: can be small trade volume)
 def last_price():
