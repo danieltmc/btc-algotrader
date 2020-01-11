@@ -17,17 +17,18 @@ btc_usd = "/products/btc-usd"
 
 # Create empty DataFrame
 def create_df():
-	return(pandas.DataFrame(columns=["Time","Price"]))
+	main.data = pandas.DataFrame(columns=["Time","Price"])
+	return
 
 # Import existing historical data
 def load_data():
-	dataframe = pandas.read_pickle("historical.pkl")
+	main.data = pandas.read_pickle("historical.pkl")
 	print("Pandas DataFrame imported")
-	return(dataframe)
+	return
 
 # Save historical data
-def save_data(dataframe):
-	dataframe.to_pickle("historical.pkl")
+def save_data():
+	main.data.to_pickle("historical.pkl")
 	print("Pandas DataFrame saved")
 	return
 
