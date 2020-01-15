@@ -18,7 +18,7 @@ btc_usd = "/products/btc-usd"
 # Create empty DataFrame
 def create_df():
 	# Time is the index of the DataFrame, Price and Volume are the data to be stored
-	main.data = pandas.DataFrame(columns=["Price", "Volume"])
+	main.data = pandas.DataFrame(columns = ["Time", "Price", "Volume"])
 	return
 
 # Import existing historical data
@@ -35,11 +35,10 @@ def save_data():
 
 # Write current price to the DataFrame
 def log_price():
-	# Use weighted average of top 50 open sales
+	# Use weighted average and volume of top 50 open sales
 	time, price, volume = book_price()
-	# DataFrame value at Time is Price
-	main.data.at[time, "Price"] = price
-	main.data.at[time, "Volume"] = volume
+	# Add row at end of DataFrame, divide size of DataFrame by number of columns to get the number of rows
+	main.data.iloc[(main.data.size // 3) + 1] = [time, price, volume]
 	print("Data logged: Average price of $" + str(price) + "across total order volume of " + str(volume) " BTC")
 	return
 
