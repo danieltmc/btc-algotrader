@@ -37,8 +37,8 @@ def save_data():
 def log_price():
 	# Use weighted average and volume of top 50 open sales
 	time, price, volume = book_price()
-	# Add row at end of DataFrame, divide size of DataFrame by number of columns to get the number of rows
-	main.data.iloc[(main.data.size // 3) + 1] = [time, price, volume]
+	# Add row at end of DataFrame, divide size of DataFrame by number of columns to get the index of the next row
+	main.data = main.data.append({"Time": time, "Price": price, "Volume": volume}, ignore_index = True)
 	print("Data logged: Average price of $" + str(price) + "across total order volume of " + str(volume) " BTC")
 	return
 
@@ -82,6 +82,13 @@ def last_price():
 	price = float(json["price"])
 	# Pass results as a tuple so time and price can be stored as a pair
 	return(time, price)
+
+###############################
+# Data Manipulation Functions
+###############################
+
+def hour_avg(dataframe):
+	main.data.loc[main.data["Time"] > relative_timestamp(hours=1)]
 
 ###############################
 # Utility Functions
