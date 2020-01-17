@@ -37,7 +37,7 @@ def save_data():
 def log_price():
 	# Use weighted average and volume of top 50 open sales
 	time, price, volume = book_price()
-	# Add row at end of DataFrame, divide size of DataFrame by number of columns to get the index of the next row
+	# Add row at end of DataFrame
 	main.data = main.data.append({"Time": time, "Price": price, "Volume": volume}, ignore_index = True)
 	print("Data logged: Average price of $" + str(price) + "across total order volume of " + str(volume) " BTC")
 	return
@@ -88,7 +88,17 @@ def last_price():
 ###############################
 
 def hour_avg(dataframe):
-	main.data.loc[main.data["Time"] > relative_timestamp(hours=1)]
+	now = timestamp()
+	hour = relative_timestamp(hours=1)
+	temp = main.data.loc[main.data["Time"] > hour]
+	volume = main.data.sum()["Volume"]
+	mean = 0.0
+	# Calculate the weighted mean
+	for i in range(len(temp)):
+		# Multiply each price by its relative weight
+		mean += temp.loc[i, "Price"] * (temp.loc[i, "Volume"] / volume)
+	print("Average price between " + now + " and " + hour + " is $" + mean)
+	return(mean)
 
 ###############################
 # Utility Functions
