@@ -88,8 +88,9 @@ def last_price():
 ###############################
 
 def hour_avg(dataframe):
+	# Get current timestamp and timestamp from 1 hour ago
 	now = timestamp()
-	hour = relative_timestamp(hours=1)
+	hour = timestamp(hours=1)
 	temp = main.data.loc[main.data["Time"] > hour]
 	volume = main.data.sum()["Volume"]
 	mean = 0.0
@@ -110,10 +111,6 @@ def format_time(unformatted):
 	return(formatted)
 
 # Return time in SQL timestamp format
-def timestamp():
-	return(time.strftime("%Y-%m-%d %H:%M:%S"))
-
-# Return past time in SQL timestamp format
-def relative_timestamp(weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0):
+def timestamp(weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0):
 	timestamp = int(time.time()) - ((minutes * 60) + (hours * 3600) + (days * 86400) + (weeks * 604800))
 	return(time.strftime("%Y-%m-%d %H:%M:%S",time.gmtime(timestamp)))
