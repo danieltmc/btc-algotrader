@@ -53,7 +53,7 @@ def book_price():
 	order_request = requests.get(api + btc_usd + "/book?level=2") # Level 2 gives top 50 open orders
 	# Time is in SQL timestamp format
 	time_json = time_request.json()
-	time = format_time(time_json["iso"])
+	time = format_time()
 	# Only look at asking (selling) prices. Other contents of the dict are "sequence" (order #) and "bids" (buying prices)
 	order_json = order_request.json()
 	asking = order_json["asks"]
@@ -76,7 +76,7 @@ def last_price():
 	request = requests.get(api + btc_usd + "/ticker")
 	json = request.json()
 	# Time is in SQL timestamp format
-	time = format_time(json["time"])
+	time = format_time()
 	# Store price as a float instead of a truncated string
 	# price = f'{float(data["price"]):.2f}'
 	price = float(json["price"])
@@ -106,7 +106,10 @@ def hour_avg(dataframe):
 ###############################
 
 # Convert time from ISO to SQL timestamp
-def format_time(unformatted):
+def format_time():
+	request = requests.get(api + btc_usd + "/time")
+	json = request.json()
+	unformatted = json["time"]
 	formatted = unformatted[0:10] + " " + unformatted[11:19]
 	return(formatted)
 
