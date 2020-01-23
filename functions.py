@@ -107,7 +107,7 @@ def hour_avg(dataframe):
 
 # Convert time from ISO to SQL timestamp
 def format_time():
-	request = requests.get(api + btc_usd + "/time")
+	request = requests.get(api + "/time")
 	json = request.json()
 	unformatted = json["time"]
 	formatted = unformatted[0:10] + " " + unformatted[11:19]
