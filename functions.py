@@ -116,5 +116,8 @@ def format_time():
 # Return time in SQL timestamp format
 # Passing values gives a relative timestamp (positive for future, negative for past)
 def timestamp(weeks = 0, days = 0, hours = 0, minutes = 0, seconds = 0):
-	timestamp = int(time.time()) + ((minutes * 60) + (hours * 3600) + (days * 86400) + (weeks * 604800))
+	request = requests.get(api + "/time")
+	json = request.json()
+	epoch = json["epoch"]
+	timestamp = int(epoch) + ((minutes * 60) + (hours * 3600) + (days * 86400) + (weeks * 604800))
 	return(time.strftime("%Y-%m-%d %H:%M:%S",time.gmtime(timestamp)))
