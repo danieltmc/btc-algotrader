@@ -14,6 +14,9 @@ try:
 	except IOError:
 		# Create DataFrame if one does not already exist
 		data = functions.create_df()
+	
+	
+	
 # On exit
 except:
 	print("Saving data before exit...")
